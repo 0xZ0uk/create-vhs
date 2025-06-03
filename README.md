@@ -1,6 +1,15 @@
-# vhs
+# 📼 VHS
 
-To install dependencies:
+Develop full-stack typesafe applications with Vite, Hono and Solid. Built for maximum DX.
+
+## Why VHS?
+I'm tired, and hella bored of using NextJS.
+
+## Features
+
+## Project Structure
+
+## Getting Started
 
 ```bash
 bun install
