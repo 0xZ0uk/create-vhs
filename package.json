@@ -5,12 +5,16 @@
 	"author": "Pedro Santana",
 	"license": "MIT",
 	"keywords": ["vite", "hono", "solid"],
+	"homepage": "https://github.com/0xZ0uk/vhs",
 	"private": true,
 	"workspaces": ["apps/*", "packages/*"],
 	"scripts": {
+		"build": "bun run --filter '!@vhs' build",
+		"build:api": "bun run --filter 'api' build",
+		"build:web": "bun run --filter 'web' build",
 		"dev": "bun run --filter '!@vhs' dev",
-		"dev:web": "bun run --filter 'web' dev",
-		"dev:api": "bun run --filter 'api' dev"
+		"dev:api": "bun run --filter 'api' dev",
+		"dev:web": "bun run --filter 'web' dev"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
