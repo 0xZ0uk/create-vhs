@@ -7,6 +7,11 @@
 	"keywords": ["vite", "hono", "solid"],
 	"private": true,
 	"workspaces": ["apps/*", "packages/*"],
+	"scripts": {
+		"dev": "bun run --filter '!@vhs' dev",
+		"dev:web": "bun run --filter 'web' dev",
+		"dev:api": "bun run --filter 'api' dev"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@types/bun": "latest"
