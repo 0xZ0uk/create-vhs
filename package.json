@@ -1,7 +1,10 @@
 {
 	"name": "vhs",
-	"module": "index.ts",
-	"type": "module",
+	"description": "A monorepo template using Vite, Hono and Solid.",
+	"version": "0.0.1",
+	"author": "Pedro Santana",
+	"license": "MIT",
+	"keywords": ["vite", "hono", "solid"],
 	"private": true,
 	"workspaces": ["apps/*", "packages/*"],
 	"devDependencies": {
