@@ -33,10 +33,6 @@ Visit our [official documentation](https://docs.vhs.dev/).
 
 Having trouble? Please open an issue, or [DM me on Farcaster](https://farcaster.xyz/z0uk).
 
-## Contributing
-
-Check out our [Contributors Guide](CONTRIBUTING.md) for help getting started.
-
 ## Directory
 
 | Package                                                                                    | Release Notes                                                                                                                                                                      |
