@@ -31,6 +31,19 @@ Visit our [official documentation](https://docs.vhs.dev/).
 
 ## Support
 
-Having trouble? Get help in the official [Astro Discord](https://astro.build/chat).
+Having trouble? Please open an issue, or [DM me on Farcaster](https://farcaster.xyz/z0uk).
 
 ## Contributing
+
+Check out our [Contributors Guide](CONTRIBUTING.md) for help getting started.
+
+## Directory
+
+| Package                                                                                    | Release Notes                                                                                                                                                                      |
+| ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [create-vhs](packages/create-vhs)                                                      | [![create-vhs version](https://img.shields.io/npm/v/create-vhs.svg?label=%20)](packages/create-vhs/CHANGELOG.md)                                                             |
+
+## Links
+
+- [License (MIT)](LICENSE)
+- [Website](https://vhs.dev/)
