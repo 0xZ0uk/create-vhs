@@ -1,6 +1,7 @@
 import type { APIEvent, ResponseStub } from "@solidjs/start/server";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { appRouter } from "@vhs/api";
+import { createTRPCContext } from "@vhs/api/trpc";
 
 const SERVER_URL = "http://localhost:3002";
 
@@ -24,6 +25,7 @@ const handler = async ({ request, response }: APIEvent) => {
 		endpoint: `${SERVER_URL}/api/trpc`,
 		router: appRouter,
 		req: request,
+		createContext: () => createTRPCContext({ req: request }),
 		onError({ error, path }) {
 			console.error(`>>> tRPC Error on '${path}'`, error);
 		},

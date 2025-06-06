@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "@fontsource-variable/inter";
 
+@source "../**/*.{ts,tsx}";
 @plugin "@kobalte/tailwindcss";
 
 @layer base {

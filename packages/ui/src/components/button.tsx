@@ -5,7 +5,7 @@ import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 import type { ValidComponent } from "solid-js";
 import { splitProps } from "solid-js";
-import { cn } from "..";
+import { cn } from "../utils/cn";
 
 export const buttonVariants = cva(
 	"inline-flex items-center justify-center rounded-md font-medium text-sm transition-[color,background-color,box-shadow] focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",

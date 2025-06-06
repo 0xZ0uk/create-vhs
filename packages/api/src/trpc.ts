@@ -2,7 +2,13 @@ import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError, z } from "zod/v4";
 
-const t = initTRPC.context().create({
+export const createTRPCContext = async (opts: { req?: Request }) => {
+	return {
+		// Add your context here (database, auth, etc.)
+	};
+};
+
+const t = initTRPC.context<typeof createTRPCContext>().create({
 	transformer: superjson,
 	errorFormatter: ({ shape, error }) => ({
 		...shape,
@@ -31,7 +37,6 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
 
 	const end = Date.now();
 
-	// biome-ignore lint/suspicious/noConsoleLog: Used for debugging tRPC
 	console.log(`[TRPC] ${path} took ${end - start}ms to execute`);
 
 	return result;

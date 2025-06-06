@@ -1,26 +1,23 @@
-import {
-	QueryClient,
-	defaultShouldDehydrateQuery,
-} from "@tanstack/solid-query";
-import SuperJSON from "superjson";
+import { QueryClient } from "@tanstack/solid-query";
 
 export const createQueryClient = () =>
 	new QueryClient({
 		defaultOptions: {
 			queries: {
-				staleTime: 30 * 1000,
-			},
-			dehydrate: {
-				serializeData: SuperJSON.serialize,
-				shouldDehydrateQuery: (query) =>
-					defaultShouldDehydrateQuery(query) ||
-					query.state.status === "pending",
-				shouldRedactErrors: () => {
-					return false;
+				// With SSR, we usually want to set some default staleTime
+				// above 0 to avoid refetching immediately on the client
+				staleTime: 30 * 1000, // 30 seconds
+				gcTime: 5 * 60 * 1000, // 5 minutes (previously cacheTime)
+				// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+				retry: (failureCount, error: any) => {
+					if (error?.data?.code === "UNAUTHORIZED") {
+						return false;
+					}
+					return failureCount < 3;
 				},
 			},
-			hydrate: {
-				deserializeData: SuperJSON.deserialize,
+			mutations: {
+				retry: false,
 			},
 		},
 	});
