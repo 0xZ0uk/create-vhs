@@ -1,7 +1,7 @@
-import Nav from "@/components/Nav";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 import { Suspense } from "solid-js";
+import Nav from "./components/Nav";
 
 import "@vhs/ui/styles/globals.css";
 
