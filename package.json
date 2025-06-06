@@ -10,10 +10,10 @@
 	"workspaces": ["apps/*", "packages/*"],
 	"scripts": {
 		"build": "bun run --filter '!@vhs' build",
-		"build:api": "bun run --filter 'api' build",
+		"build:api": "bun run --filter 'server' build",
 		"build:web": "bun run --filter 'web' build",
 		"dev": "bun run --filter '!@vhs' dev",
-		"dev:api": "bun run --filter 'api' dev",
+		"dev:api": "bun run --filter 'server' dev",
 		"dev:web": "bun run --filter 'web' dev"
 	},
 	"devDependencies": {

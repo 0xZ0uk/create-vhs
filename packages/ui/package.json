@@ -1,13 +1,7 @@
 {
 	"name": "@vhs/ui",
-	"module": "src/index.ts",
 	"type": "module",
-	"exports": {
-		"./*": {
-			"types": "./src/**/*.ts",
-			"default": "./src/**/*.{ts,tsx}"
-		}
-	},
+	"private": true,
 	"dependencies": {
 		"@kobalte/core": "0.13.10",
 		"class-variance-authority": "^0.7.1",
