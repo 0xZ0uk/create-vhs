@@ -3,7 +3,9 @@
 	"type": "module",
 	"private": true,
 	"dependencies": {
+		"@fontsource-variable/inter": "^5.2.5",
 		"@kobalte/core": "0.13.10",
+		"@kobalte/tailwindcss": "^0.9.0",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"solid-js": "^1.9.5",
