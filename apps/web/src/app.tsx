@@ -4,6 +4,7 @@ import { Suspense } from "solid-js";
 import Nav from "./components/Nav";
 
 import "@vhs/ui/styles/globals.css";
+import { MetaProvider, Title } from "@solidjs/meta";
 
 export default function App() {
 	return (
