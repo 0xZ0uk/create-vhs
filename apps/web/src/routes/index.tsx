@@ -1,5 +1,5 @@
 import { A } from "@solidjs/router";
-import Counter from "~/components/Counter";
+import { Button } from "@vhs/ui/components/button";
 
 export default function Home() {
 	return (
@@ -8,7 +8,7 @@ export default function Home() {
 				VHS
 			</h1>
 			<p>Vite + Hono + Solid</p>
-			<Counter />
+			<Button>Hello</Button>
 			<p class="mt-8">
 				Visit{" "}
 				<a
