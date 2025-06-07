@@ -7,7 +7,7 @@ export default defineConfig({
 		plugins: [tailwindcss()],
 		resolve: {
 			alias: {
-				"@web": path.resolve(import.meta.dirname, "./src"),
+				"@": path.resolve(import.meta.dirname, "./src"),
 				"@server": path.resolve(import.meta.dirname, "../server/src"),
 				"@vhs/api": path.resolve(import.meta.dirname, "../../packages/api/src"),
 				"@vhs/ui": path.resolve(import.meta.dirname, "../../packages/ui/src"),

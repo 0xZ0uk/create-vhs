@@ -3,8 +3,6 @@ import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { appRouter } from "@vhs/api";
 import { createTRPCContext } from "@vhs/api/trpc";
 
-const SERVER_URL = "http://localhost:3002";
-
 const setCorsHeaders = (response: ResponseStub) => {
 	response.headers.set("Access-Control-Allow-Origin", "*");
 	response.headers.set("Access-Control-Request-Method", "*");
@@ -22,7 +20,8 @@ export const OPTIONS = ({ response }: APIEvent) => {
 
 const handler = async ({ request, response }: APIEvent) => {
 	const res = await fetchRequestHandler({
-		endpoint: `${SERVER_URL}/api/trpc`,
+		// biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
+		endpoint: `http://localhost:3002/trpc`,
 		router: appRouter,
 		req: request,
 		createContext: () => createTRPCContext({ req: request }),

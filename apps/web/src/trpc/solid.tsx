@@ -1,14 +1,17 @@
 import { type QueryClient, QueryClientProvider } from "@tanstack/solid-query";
 import {
+	TRPCRequestOptions,
 	createTRPCClient,
+	createTRPCClientProxy,
+	httpBatchLink,
 	httpBatchStreamLink,
 	loggerLink,
 } from "@trpc/client";
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import type { AppRouter } from "@vhs/api";
-import { type ParentProps, createSignal } from "solid-js";
-import SuperJSON from "superjson";
+import type { ParentProps } from "solid-js";
 
+import SuperJSON from "superjson";
 import { createQueryClient } from "./query-client";
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
@@ -33,7 +36,8 @@ export const api = createTRPCClient<AppRouter>({
 		}),
 		httpBatchStreamLink({
 			transformer: SuperJSON,
-			url: `${import.meta.env.SERVER_BASE_URL}/api/trpc`,
+			// biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
+			url: `http://localhost:3002/trpc`,
 			headers: () => {
 				const headers = new Headers();
 				headers.set("x-trpc-source", "nextjs-react");
@@ -59,8 +63,6 @@ export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
 export function TRPCSolidProvider({ children }: ParentProps) {
 	const queryClient = getQueryClient();
-
-	const [trpcClient] = createSignal(() => api);
 
 	return (
 		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

@@ -1,3 +1,4 @@
+import Cassette from "@/components/Cassette";
 import { MetaProvider, Title } from "@solidjs/meta";
 import { Button } from "@vhs/ui/components/button";
 
@@ -14,7 +15,7 @@ export default function Home() {
 						<br />
 						focused on simplicity and full type-safety.
 					</p>
-					<Button size="lg">Try the "Hello VHS" tRPC route</Button>
+					<Cassette />
 				</section>
 				<section class="mx-auto grid w-full max-w-7xl grid-cols-3 gap-4">
 					<div class="flex h-48 w-full flex-col items-start justify-start rounded-md border bg-card p-6">
