@@ -1,5 +1,5 @@
 import { vhsRouter } from "./router/vhs";
-import { createTRPCRouter } from "./trpc";
+import { createCallerFactory, createTRPCRouter } from "./trpc";
 
 export const appRouter = createTRPCRouter({
 	vhs: vhsRouter,

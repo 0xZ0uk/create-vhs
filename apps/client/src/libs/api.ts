@@ -1,9 +1,8 @@
-import { type QueryClient, QueryClientProvider } from "@tanstack/solid-query";
+import type { QueryClient } from "@tanstack/solid-query";
+import type { QueryClientProvider } from "@tanstack/solid-query";
+
 import {
-	TRPCRequestOptions,
 	createTRPCClient,
-	createTRPCClientProxy,
-	httpBatchLink,
 	httpBatchStreamLink,
 	loggerLink,
 } from "@trpc/client";
@@ -32,17 +31,3 @@ export const api = createTRPCClient<AppRouter>({
 		}),
 	],
 });
-
-/**
- * Inference helper for inputs.
- *
- * @example type HelloInput = RouterInputs['example']['hello']
- */
-export type RouterInputs = inferRouterInputs<AppRouter>;
-
-/**
- * Inference helper for outputs.
- *
- * @example type HelloOutput = RouterOutputs['example']['hello']
- */
-export type RouterOutputs = inferRouterOutputs<AppRouter>;
