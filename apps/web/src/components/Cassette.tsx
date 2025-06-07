@@ -1,4 +1,4 @@
-import { api } from "@/trpc/solid";
+import { api } from "@/libs/api";
 import { createAsync, query } from "@solidjs/router";
 import { Button } from "@vhs/ui/components/button";
 

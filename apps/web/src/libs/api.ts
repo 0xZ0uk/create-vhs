@@ -12,20 +12,6 @@ import type { AppRouter } from "@vhs/api";
 import type { ParentProps } from "solid-js";
 
 import SuperJSON from "superjson";
-import { createQueryClient } from "./query-client";
-
-let clientQueryClientSingleton: QueryClient | undefined = undefined;
-
-const getQueryClient = () => {
-	if (typeof window === "undefined") {
-		// Server: always make a new query client
-		return createQueryClient();
-	}
-	// Browser: use singleton pattern to keep the same query client
-	clientQueryClientSingleton ??= createQueryClient();
-
-	return clientQueryClientSingleton;
-};
 
 export const api = createTRPCClient<AppRouter>({
 	links: [
@@ -60,11 +46,3 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
  * @example type HelloOutput = RouterOutputs['example']['hello']
  */
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
-
-export function TRPCSolidProvider({ children }: ParentProps) {
-	const queryClient = getQueryClient();
-
-	return (
-		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-	);
-}
