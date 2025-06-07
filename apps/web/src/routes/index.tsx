@@ -1,5 +1,4 @@
-import { Link, Meta, MetaProvider, Title } from "@solidjs/meta";
-import { A } from "@solidjs/router";
+import { MetaProvider, Title } from "@solidjs/meta";
 import { Button } from "@vhs/ui/components/button";
 
 export default function Home() {
