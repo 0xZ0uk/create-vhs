@@ -17,7 +17,7 @@ export default function Home() {
 					</p>
 					<Cassette />
 				</section>
-				<section class="mx-auto grid w-full max-w-7xl grid-cols-3 gap-4">
+				<section class="mx-auto grid w-full max-w-7xl grid-cols-1 gap-4 md:grid-cols-3">
 					<div class="flex h-48 w-full flex-col items-start justify-start rounded-md border bg-card p-6">
 						<h3 class="font-bold text-xl">Getting Started</h3>
 						<p class="mb-4 text-card-foreground">
