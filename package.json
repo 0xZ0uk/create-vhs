@@ -7,7 +7,7 @@
 	"keywords": ["vite", "hono", "solid"],
 	"homepage": "https://github.com/0xZ0uk/vhs",
 	"private": true,
-	"workspaces": ["apps/*", "packages/*"],
+	"workspaces": ["client", "server", "packages/*"],
 	"scripts": {
 		"build": "bun run --filter '!@vhs' build",
 		"build:client": "bun run --filter 'client' build",
