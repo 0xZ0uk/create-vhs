@@ -6,10 +6,13 @@ const getHello = query(async () => await api.vhs.hello.query(), "hello");
 
 export default function Cassette() {
 	const hello = createAsync(() => getHello());
+
 	return (
-		<div>
+		<div class="space-y-2">
 			<Button size="lg">Try the "Hello VHS" tRPC route</Button>
-			<pre>{hello()?.message}</pre>
+			<pre class="rounded-md bg-muted py-2 text-muted-foreground">
+				{hello()?.message}
+			</pre>
 		</div>
 	);
 }
