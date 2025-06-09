@@ -41,7 +41,7 @@ export default function Cassette() {
 				Try the "Hello VHS" tRPC route
 			</Button>
 			{result() && (
-				<pre class="rounded-md bg-muted py-2 text-muted-foreground">
+				<pre class="rounded-md bg-muted p-2 text-muted-foreground">
 					{result()?.message}
 				</pre>
 			)}
