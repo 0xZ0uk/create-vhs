@@ -12,7 +12,7 @@ import type { ParentProps } from "solid-js";
 
 import SuperJSON from "superjson";
 
-export const api = createTRPCClient<AppRouter>({
+export const trpc = createTRPCClient<AppRouter>({
 	links: [
 		loggerLink({
 			enabled: (op) =>
