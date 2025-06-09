@@ -1,5 +1,3 @@
-![Modern stack with a retro look](.github/assets/banner.png 'Modern stack with a retro look')
-
 <p align="center">
   <br/>
   <a href="https://vhs.dev">VHS</a> is a web development stack built for the modern web &mdash;
