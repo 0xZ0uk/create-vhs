@@ -16,12 +16,10 @@ export type PackageManagerType = "bun" | "npm" | "yarn" | "pnpm";
 
 export type Feature =
 	| "linting"
-	| "husky"
 	| "github-actions"
 	| "docker"
 	| "testing"
 	| "biome"
-	| "turborepo"
 	| "changesets";
 
 export interface TemplateVariable {

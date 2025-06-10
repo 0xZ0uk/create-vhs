@@ -131,7 +131,6 @@ async function processTemplateFiles(
 		PACKAGE_MANAGER: options.packageManager,
 		USE_TYPESCRIPT: options.typescript,
 		TEMPLATE_TYPE: options.template,
-		HAS_TURBOREPO: options.features.includes("turborepo"),
 		HAS_CHANGESETS: options.features.includes("changesets"),
 		HAS_DOCKER: options.features.includes("docker"),
 		HAS_GITHUB_ACTIONS: options.features.includes("github-actions"),
@@ -154,7 +153,6 @@ async function processTemplateFiles(
 		"package.json",
 		"apps/*/package.json",
 		"packages/*/package.json",
-		"turbo.json",
 		".github/workflows/*.yml",
 		"docker-compose.yml",
 		"Dockerfile",
@@ -212,10 +210,8 @@ async function initializeGit(projectPath: string): Promise<void> {
 function getTemplateSource(template: string): string {
 	// Map template names to GitHub repos or local paths
 	const templateMap: Record<string, string> = {
-		basic: "yourusername/bun-monorepo-basic",
-		fullstack: "yourusername/bun-monorepo-fullstack",
-		library: "yourusername/bun-monorepo-library",
-		microservices: "yourusername/bun-monorepo-microservices",
+		basic: "0xZ0uk/create-vhs/packages/vhs",
+		pro: "0xZ0uk/create-vhs/packages/vhs",
 	};
 
 	return templateMap[template] || template;
@@ -267,11 +263,9 @@ async function addFeatures(
 	const featureHandlers: Record<Feature, () => Promise<void>> = {
 		linting: () => addLintingConfig(projectPath, options),
 		biome: () => addBiomeConfig(projectPath, options),
-		husky: () => addHuskyConfig(projectPath, options),
 		"github-actions": () => addGitHubActions(projectPath, options),
 		docker: () => addDockerSupport(projectPath, options),
 		testing: () => addTestingSetup(projectPath, options),
-		turborepo: () => addTurborepoConfig(projectPath, options),
 		changesets: () => addChangesetsConfig(projectPath, options),
 	};
 

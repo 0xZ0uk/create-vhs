@@ -28,7 +28,7 @@
       "suspicious": {
         "noArrayIndexKey": "warn",
         "noExplicitAny": "warn",
-        "noConsoleLog": "warn"
+        "noConsoleLog": "off"
       }
     }
   },
