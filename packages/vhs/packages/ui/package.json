@@ -1,0 +1,22 @@
+{
+	"name": "@vhs/ui",
+	"type": "module",
+	"private": true,
+	"dependencies": {
+		"@fontsource-variable/inter": "^5.2.5",
+		"@kobalte/core": "0.13.10",
+		"@kobalte/tailwindcss": "^0.9.0",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"solid-js": "^1.9.5",
+		"tailwind-merge": "^3.3.0"
+	},
+	"devDependencies": {
+		"@tailwindcss/vite": "^4.0.7",
+		"@types/bun": "latest",
+		"tailwindcss": "^4.0.7"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	}
+}

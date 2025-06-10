@@ -26,15 +26,5 @@
 				"noExplicitAny": "warn"
 			}
 		}
-	},
-	"json": {
-		"parser": {
-			"allowComments": true,
-			"allowTrailingCommas": true
-		},
-		"formatter": {
-			"indentStyle": "space",
-			"trailingCommas": "none"
-		}
 	}
 }
