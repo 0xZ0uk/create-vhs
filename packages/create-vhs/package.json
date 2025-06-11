@@ -1,7 +1,7 @@
 {
   "name": "create-vhs",
   "description": "Create a VHS monorepo with one command.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
   "bin": {
     "create-vhs": "./bin/index.js"
@@ -10,7 +10,6 @@
     "build": "tsc && chmod +x bin/index.js",
     "dev": "bun --watch src/cli.ts",
     "dev:direct": "bun src/cli.ts",
-    "test:cli": "node bin/index.js",
     "type-check": "tsc --noEmit",
     "prepublishOnly": "bun run build"
   },
