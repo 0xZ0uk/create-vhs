@@ -22,7 +22,7 @@ export const trpc = createTRPCClient<AppRouter>({
 		httpBatchStreamLink({
 			transformer: SuperJSON,
 			// biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-			url: `http://localhost:3002/trpc`,
+			url: `http://localhost:3002/api/trpc`,
 			headers: () => {
 				const headers = new Headers();
 				headers.set("x-trpc-source", "nextjs-react");
