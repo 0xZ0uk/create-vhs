@@ -24,8 +24,10 @@ export async function cli(): Promise<void> {
 		.option("--use-pnpm", "Use pnpm instead of bun")
 		.action(async (projectName: string | undefined, options: CLIOptions) => {
 			try {
-				console.log(chalk.blue.bold("\n🚀 Create My Bun App\n"));
-				console.log(chalk.gray("A TypeScript-first Bun monorepo generator\n"));
+				console.log(chalk.blue.bold("\n🚀 Create VHS App\n"));
+				console.log(
+					chalk.gray("A web development stack built for the modern web\n"),
+				);
 
 				// Prompt for missing options (including project name)
 				const answers = await promptForOptions(projectName, options);
