@@ -2,7 +2,7 @@ export interface ProjectOptions {
 	projectName: string;
 	template: TemplateType;
 	packageManager: PackageManagerType;
-	features: Feature[];
+	// features: Feature[];
 	skipInstall: boolean;
 	useNpm?: boolean;
 	useYarn?: boolean;
@@ -13,7 +13,7 @@ export type TemplateType = "basic" | "pro";
 
 export type PackageManagerType = "bun" | "npm" | "yarn" | "pnpm";
 
-export type Feature = "biome";
+// export type Feature = "biome";
 
 export interface TemplateVariable {
 	[key: string]: string | boolean | number;
@@ -23,7 +23,7 @@ export interface TemplateConfig {
 	name: string;
 	description: string;
 	source: string;
-	features: Feature[];
+	// features: Feature[];
 }
 
 export interface CLIOptions {

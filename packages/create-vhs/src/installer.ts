@@ -4,14 +4,8 @@ import chalk from "chalk";
 import degit from "degit";
 import { execa } from "execa";
 import fs from "fs-extra";
-import inquirer from "inquirer";
 import ora from "ora";
-import type {
-	Feature,
-	ProjectOptions,
-	SpinnerStep,
-	TemplateVariable,
-} from "./types.js";
+import type { ProjectOptions, SpinnerStep, TemplateVariable } from "./types.js";
 import {
 	createGitIgnore,
 	replaceTemplateVariables,
@@ -179,11 +173,6 @@ async function processTemplateFiles(
 	for (const pattern of filesToProcess) {
 		await replaceTemplateVariables(projectPath, pattern, templateVars);
 	}
-
-	// Add selected features
-	if (options.features.length > 0) {
-		await addFeatures(projectPath, options.features, options);
-	}
 }
 
 async function installDependencies(
@@ -228,54 +217,4 @@ function getTemplateSource(template: string): string {
 	};
 
 	return templateMap[template] || template;
-}
-
-async function addFeatures(
-	projectPath: string,
-	features: Feature[],
-	options: ProjectOptions,
-): Promise<void> {
-	const featureHandlers: Record<Feature, () => Promise<void>> = {
-		biome: () => addBiomeConfig(projectPath, options),
-	};
-
-	for (const feature of features) {
-		const handler = featureHandlers[feature];
-		if (handler) {
-			await handler();
-		}
-	}
-}
-
-async function addBiomeConfig(
-	projectPath: string,
-	options: ProjectOptions,
-): Promise<void> {
-	const biomeConfig = {
-		$schema: "https://biomejs.dev/schemas/1.4.1/schema.json",
-		organizeImports: {
-			enabled: true,
-		},
-		linter: {
-			enabled: true,
-			rules: {
-				recommended: true,
-			},
-		},
-		formatter: {
-			enabled: true,
-			indentStyle: "space" as const,
-			indentWidth: 2,
-		},
-		javascript: {
-			formatter: {
-				semicolons: "always" as const,
-				quoteStyle: "single" as const,
-			},
-		},
-	};
-
-	await fs.writeJson(path.join(projectPath, "biome.json"), biomeConfig, {
-		spaces: 2,
-	});
 }

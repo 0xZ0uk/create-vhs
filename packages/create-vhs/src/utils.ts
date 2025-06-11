@@ -93,11 +93,11 @@ export async function updatePackageJson(
 			}
 
 			// Feature-specific scripts
-			if (options.features.includes("biome")) {
-				scripts.lint = "biome check .";
-				scripts["lint:fix"] = "biome check . --apply";
-				scripts.format = "biome format . --write";
-			}
+			// if (options.features.includes("biome")) {
+			// 	scripts.lint = "biome check .";
+			// 	scripts["lint:fix"] = "biome check . --apply";
+			// 	scripts.format = "biome format . --write";
+			// }
 		}
 
 		// Workspace configuration for monorepos

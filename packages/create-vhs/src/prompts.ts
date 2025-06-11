@@ -2,7 +2,6 @@ import chalk from "chalk";
 import inquirer, { type DistinctQuestion } from "inquirer";
 import type {
 	CLIOptions,
-	Feature,
 	PackageManagerType,
 	ProjectOptions,
 	TemplateType,
@@ -13,7 +12,6 @@ interface PromptAnswers {
 	template?: TemplateType;
 	typescript?: boolean;
 	packageManager?: PackageManagerType;
-	features?: Feature[];
 }
 
 export async function promptForOptions(
@@ -91,26 +89,25 @@ export async function promptForOptions(
 	}
 
 	// Additional features
-	questions.push({
-		type: "checkbox",
-		name: "features",
-		message: "🔧 Select additional features:",
-		choices: [
-			{
-				name: `${chalk.cyan("Biome")} - Fast linter and formatter (recommended)`,
-				value: "biome" as Feature,
-				checked: true,
-			},
-		],
-	});
+	// questions.push({
+	// 	type: "checkbox",
+	// 	name: "features",
+	// 	message: "🔧 Select additional features:",
+	// 	choices: [
+	// 		{
+	// 			name: `${chalk.cyan("Biome")} - Fast linter and formatter (recommended)`,
+	// 			value: "biome" as Feature,
+	// 			checked: true,
+	// 		},
+	// 	],
+	// });
 
 	const answers = await inquirer.prompt(questions);
 
 	return {
 		projectName: projectName || answers.projectName,
 		template: (existingOptions.template || answers.template) as TemplateType,
-		packageManager: answers.packageManager ||"bun",
-		features: answers.features || [],
+		packageManager: answers.packageManager || "bun",
 		skipInstall: existingOptions.skipInstall || false,
 	};
 }
