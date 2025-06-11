@@ -1,11 +1,15 @@
 {
   "name": "create-vhs",
   "description": "Create a VHS monorepo with one command.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "bin": {
     "create-vhs": "./bin/index.js"
   },
+  "files": [
+    "dist",
+    "bin"
+  ],
   "scripts": {
     "build": "tsc && chmod +x bin/index.js",
     "dev": "bun --watch src/cli.ts",
@@ -39,6 +43,6 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/0xZ0uk/create-vhs/packages/create-vhs"
+    "url": "https://github.com/0xZ0uk/create-vhs#packages/create-vhs"
   }
 }
