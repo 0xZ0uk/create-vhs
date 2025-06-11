@@ -1,9 +1,0 @@
-{
-	"compilerOptions": {
-		"module": "preserve",
-		"moduleResolution": "bundler",
-		"strict": true,
-		"jsx": "react-jsx",
-		"jsxImportSource": "hono/jsx"
-	}
-}

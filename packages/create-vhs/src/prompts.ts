@@ -7,7 +7,6 @@ import type {
 	ProjectOptions,
 	TemplateType,
 } from "./types.js";
-import { validateProjectName } from "./utils.js";
 
 interface PromptAnswers {
 	projectName?: string;
@@ -55,17 +54,6 @@ export async function promptForOptions(
 			default: "basic" as TemplateType,
 		});
 	}
-
-	// TypeScript if not specified
-	if (existingOptions.typescript === undefined) {
-		questions.push({
-			type: "confirm",
-			name: "typescript",
-			message: "📝 Would you like to use TypeScript?",
-			default: true,
-		});
-	}
-
 	// Package manager if not specified
 	if (
 		!existingOptions.useNpm &&
@@ -113,41 +101,6 @@ export async function promptForOptions(
 				value: "biome" as Feature,
 				checked: true,
 			},
-			{
-				name: `${chalk.yellow("ESLint + Prettier")} - Traditional linting setup`,
-				value: "linting" as Feature,
-				checked: false,
-			},
-			{
-				name: `${chalk.green("Husky + lint-staged")} - Git hooks`,
-				value: "husky" as Feature,
-				checked: true,
-			},
-			{
-				name: `${chalk.blue("Turborepo")} - High-performance build system`,
-				value: "turborepo" as Feature,
-				checked: true,
-			},
-			{
-				name: `${chalk.magenta("Changesets")} - Version management`,
-				value: "changesets" as Feature,
-				checked: false,
-			},
-			{
-				name: `${chalk.gray("GitHub Actions")} - CI/CD workflows`,
-				value: "github-actions" as Feature,
-				checked: false,
-			},
-			{
-				name: `${chalk.cyan("Docker")} - Containerization support`,
-				value: "docker" as Feature,
-				checked: false,
-			},
-			{
-				name: `${chalk.green("Testing")} - Bun test + Vitest setup`,
-				value: "testing" as Feature,
-				checked: true,
-			},
 		],
 	});
 
@@ -156,17 +109,8 @@ export async function promptForOptions(
 	return {
 		projectName: projectName || answers.projectName,
 		template: (existingOptions.template || answers.template) as TemplateType,
-		typescript: existingOptions.typescript ?? answers.typescript ?? true,
-		packageManager:
-			getPackageManager(existingOptions) || answers.packageManager,
+		packageManager: answers.packageManager ||"bun",
 		features: answers.features || [],
 		skipInstall: existingOptions.skipInstall || false,
 	};
-}
-
-function getPackageManager(options: CLIOptions): PackageManagerType | null {
-	if (options.useNpm) return "npm";
-	if (options.useYarn) return "yarn";
-	if (options.usePnpm) return "pnpm";
-	return null;
 }

@@ -92,35 +92,16 @@ export async function updatePackageJson(
 				});
 			}
 
-			// Add feature-specific scripts
-			if (options.features.includes("linting")) {
-				scripts.lint = "eslint . --ext .js,.jsx,.ts,.tsx";
-				scripts["lint:fix"] = "eslint . --ext .js,.jsx,.ts,.tsx --fix";
-				scripts.format = "prettier --write .";
-			}
-
+			// Feature-specific scripts
 			if (options.features.includes("biome")) {
 				scripts.lint = "biome check .";
 				scripts["lint:fix"] = "biome check . --apply";
 				scripts.format = "biome format . --write";
 			}
-
-			if (options.features.includes("testing")) {
-				scripts.test = "bun test";
-				scripts["test:watch"] = "bun test --watch";
-				scripts["test:coverage"] = "bun test --coverage";
-			}
-
-			if (options.features.includes("turborepo")) {
-				scripts.build = "turbo run build";
-				scripts.dev = "turbo run dev --parallel";
-				scripts.lint = "turbo run lint";
-				scripts.test = "turbo run test";
-			}
 		}
 
-		// Add workspace configuration for monorepos
-		if (["basic", "fullstack", "microservices"].includes(options.template)) {
+		// Workspace configuration for monorepos
+		if (["basic", "pro"].includes(options.template)) {
 			packageJson.workspaces = ["apps/*", "packages/*"];
 		}
 
@@ -148,8 +129,8 @@ export async function updateTsConfig(
 			skipLibCheck: true,
 			resolveJsonModule: true,
 			allowJs: true,
-			jsx: options.template === "pro" ? "react-jsx" : undefined,
-			composite: options.features.includes("turborepo"),
+			jsx: "react-jsx",
+			composite: false,
 			incremental: true,
 		},
 		include: ["**/*.ts", "**/*.tsx"],
@@ -225,9 +206,6 @@ Thumbs.db
 
 # Docker
 .dockerignore
-
-${options.features.includes("docker") ? "# Docker volumes\ndocker-data/\n" : ""}
-${options.features.includes("changesets") ? "# Changesets\n.changeset/**/*.md\n" : ""}
 `.trim();
 
 	await fs.writeFile(path.join(projectPath, ".gitignore"), gitIgnoreContent);
