@@ -15,12 +15,8 @@ export async function cli(): Promise<void> {
 		.description("Create a new VHS monorepo project")
 		.version("1.0.0")
 		.argument("[project-name]", "Name of the project")
-		.option(
-			"-t, --template <template>",
-			"Template to use (basic, fullstack, library, microservices)",
-		)
+		.option("-t, --template <template>", "Template to use (basic or pro)")
 		.option("--typescript", "Use TypeScript (default: true)")
-		.option("--javascript", "Use JavaScript instead of TypeScript")
 		.option("--skip-install", "Skip package installation")
 		.option("--use-npm", "Use npm instead of bun")
 		.option("--use-yarn", "Use yarn instead of bun")
@@ -39,6 +35,84 @@ export async function cli(): Promise<void> {
 					console.error(
 						chalk.yellow("Project name must be a valid npm package name"),
 					);
+
+					// Create new variables instead of reassigning parameters
+					const userInput = await (async () => {
+						if (inputProjectName) {
+							return {
+								projectName: inputProjectName,
+								options: cliOptions,
+							};
+						}
+
+						const answers = await promptForOptions();
+						return {
+							projectName: answers.projectName,
+							options: { ...cliOptions, ...answers },
+						};
+					})();
+
+					if (
+						!userInput.projectName ||
+						!validateProjectName(userInput.projectName)
+					) {
+						console.error(chalk.red("❌ Invalid project name"));
+						console.error(
+							chalk.yellow("Project name must be a valid npm package name"),
+						);
+						process.exit(1);
+					}
+
+					// Handle TypeScript/JavaScript flag with new options object
+					const updatedOptions = {
+						...userInput.options,
+						typescript: true,
+					};
+
+					// Get final options through prompts if not provided
+					const finalOptions: ProjectOptions = await promptForOptions(
+						userInput.projectName,
+						updatedOptions,
+					);
+
+					// Create the project
+					await createProject(userInput.projectName, finalOptions);
+
+					console.log(
+						chalk.green.bold(
+							`\n✅ Successfully created ${userInput.projectName}!`,
+						),
+					);
+					console.log(chalk.cyan("\nNext steps:"));
+					console.log(chalk.white(`  cd ${userInput.projectName}`));
+
+					if (!finalOptions.skipInstall) {
+						console.log(
+							chalk.white(
+								`  ${getPackageManagerRunCommand(finalOptions.packageManager)} dev`,
+							),
+						);
+					} else {
+						console.log(
+							chalk.white(`  ${finalOptions.packageManager} install`),
+						);
+						console.log(
+							chalk.white(
+								`  ${getPackageManagerRunCommand(finalOptions.packageManager)} dev`,
+							),
+						);
+					}
+
+					console.log(
+						chalk.gray("\n📖 Check out the README.md for more information"),
+					);
+				} catch (error) {
+					const errorMessage =
+						error instanceof Error ? error.message : "Unknown error occurred";
+					console.error(chalk.red("❌ Error creating project:"), errorMessage);
+					if (process.env.DEBUG) {
+						console.error(error);
+					}
 					process.exit(1);
 				}
 		
