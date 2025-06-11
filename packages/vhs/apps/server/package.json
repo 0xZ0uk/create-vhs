@@ -1,0 +1,14 @@
+{
+	"name": "server",
+	"scripts": {
+		"dev": "bun run --hot src/index.ts"
+	},
+	"dependencies": {
+		"@hono/trpc-server": "^0.3.4",
+		"@vhs/api": "workspace:*",
+		"hono": "^4.7.11"
+	},
+	"devDependencies": {
+		"@types/bun": "latest"
+	}
+}
