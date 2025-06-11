@@ -1,14 +1,9 @@
-import type { QueryClient } from "@tanstack/solid-query";
-import type { QueryClientProvider } from "@tanstack/solid-query";
-
 import {
 	createTRPCClient,
 	httpBatchStreamLink,
 	loggerLink,
 } from "@trpc/client";
-import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import type { AppRouter } from "@vhs/api";
-import type { ParentProps } from "solid-js";
 
 import SuperJSON from "superjson";
 
