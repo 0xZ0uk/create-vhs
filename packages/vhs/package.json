@@ -1,0 +1,22 @@
+{
+	"name": "root",
+	"type": "module",
+	"version": "0.0.0",
+	"private": true,
+	"author": "Pedro Santana",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/0xZ0uk/create-vhs.git"
+	},
+	"workspaces": ["docs", "packages/*"],
+	"module": "index.ts",
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"packageManager": "bun@1.2.10"
+}

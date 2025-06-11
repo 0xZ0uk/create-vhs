@@ -1,0 +1,29 @@
+---
+import { Image } from "astro:assets";
+import Tape from "../assets/vhs-tape.png";
+import Farcaster from "../assets/social/farcaster.svg";
+import Github from "../assets/social/github.svg";
+---
+
+<header class="w-full bg-gradient-to-b from-background to-foreground/5 flex items-center h-12 justify-between">
+  <nav class="basis-1/4 w-full">
+    <ul class="flex gap-4 items-center px-8">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/docs">Guide</a></li>
+    </ul>
+  </nav>
+  <div class="w-full basis-1/2 flex justify-center font-mono font-normal text-2xl">
+    <a href="/">
+      <Image src={Tape} alt="VHS" width={65} height={40} />
+    </a>
+  </div>
+  <div class="w-full basis-1/4 px-8 flex justify-end gap-2">
+    <a href="/#farcaster" class="bg-[#855DCD] aspect-square p-2 rounded-md cursor-pointer">
+      <Farcaster fill="#fff" width={20} height={20} />
+    </a>
+    <a href="/#farcaster" class="bg-[#181717] aspect-square p-2 rounded-md cursor-pointer">
+      <Github fill="#fff" width={20} height={20} />
+    </a>
+  </div>
+</header>
+

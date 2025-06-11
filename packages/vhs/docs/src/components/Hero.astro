@@ -1,0 +1,23 @@
+---
+import { Image } from "astro:assets"
+import Tape from "../assets/vhs-tape.png"
+---
+
+<section class="w-full min-h-[620px] flex flex-col items-center justify-center">
+  <Image src={Tape} alt="VHS Banner" width={500} height={300} />
+  <h1 class="text-5xl font-bold mt-8">VHS</h1>
+  <p class="text-center">
+    <br/>
+    VHS is a web development stack built for the modern web &mdash;
+    <br/>
+    focused on <span class="font-bold">simplicity</span> and <span class="font-bold">full type-safety</span>.
+  </p>
+  <div class="flex items-center gap-4 my-8">
+    <a href="/docs" class="bg-primary hover:bg-primary/80 text-primary-foreground px-4 py-1 rounded-md cursor-pointer">
+      Get Started
+    </a>
+    <a href="/docs" class="bg-secondary hover:bg-secondary/80 text-secondary-foreground px-4 py-1 rounded-md cursor-pointer">
+      Learn More
+    </a>
+  </div>
+</section>
