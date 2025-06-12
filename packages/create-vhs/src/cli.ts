@@ -24,7 +24,7 @@ export async function cli(): Promise<void> {
 		.option("--use-pnpm", "Use pnpm instead of bun")
 		.action(async (projectName: string | undefined, options: CLIOptions) => {
 			try {
-				console.log(chalk.blue.bold("\n📼 Create VHS App\n"));
+				console.log(chalk.redBright.bold("\n📼 Create VHS App\n"));
 				console.log(
 					chalk.gray("A web development stack built for the modern web\n"),
 				);

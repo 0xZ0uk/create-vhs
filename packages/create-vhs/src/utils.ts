@@ -101,7 +101,7 @@ export async function updatePackageJson(
 		}
 
 		// Workspace configuration for monorepos
-		if (["basic", "pro"].includes(options.template)) {
+		if (["basic", "mini-app"].includes(options.template)) {
 			packageJson.workspaces = ["apps/*", "packages/*"];
 		}
 

@@ -9,7 +9,7 @@ export interface ProjectOptions {
 	usePnpm?: boolean;
 }
 
-export type TemplateType = "basic" | "pro";
+export type TemplateType = "basic" | "mini-app";
 
 export type PackageManagerType = "bun" | "npm" | "yarn" | "pnpm";
 

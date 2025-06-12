@@ -39,14 +39,14 @@ export async function promptForOptions(
 			message: "🎨 Which template would you like to use?",
 			choices: [
 				{
-					name: `${chalk.cyan("Basic")} - Simple monorepo with shared packages`,
+					name: `${chalk.green("Basic")} - Simple monorepo with shared packages`,
 					value: "basic" as TemplateType,
 					short: "Basic",
 				},
 				{
-					name: `${chalk.green("Full-stack")} - All you need to create your app.`,
-					value: "pro" as TemplateType,
-					short: "Pro",
+					name: `${chalk.magenta("Farcaster mini-app")} - All you need to create your Farcaster mini-app.`,
+					value: "mini-app" as TemplateType,
+					short: "Farcaster Mini App",
 				},
 			],
 			default: "basic" as TemplateType,
