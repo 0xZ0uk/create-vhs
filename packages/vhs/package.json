@@ -1,26 +1,37 @@
 {
-	"name": "vhs",
-	"description": "A monorepo template using Vite, Hono and Solid.",
-	"version": "0.0.1",
-	"author": "Pedro Santana",
-	"license": "MIT",
-	"keywords": ["vite", "hono", "solid"],
-	"homepage": "https://github.com/0xZ0uk/vhs",
-	"private": true,
-	"workspaces": ["apps/*", "packages/*"],
 	"scripts": {
-		"build": "bun run --filter '!@vhs' build",
-		"build:client": "bun run --filter 'client' build",
-		"build:server": "bun run --filter 'server' build",
-		"dev": "bun run --filter '!@vhs' dev",
-		"dev:client": "bun run --filter 'client' dev",
-		"dev:server": "bun run --filter 'server' dev"
+		"dev": "vike dev",
+		"build": "vike build",
+		"preview": "cross-env NODE_ENV=production tsx ./hono-entry.static.ts",
+		"lint": "biome lint --write .",
+		"format": "biome format --write ."
+	},
+	"dependencies": {
+		"@fontsource-variable/inter": "^5.2.6",
+		"@kobalte/core": "^0.13.10",
+		"@tailwindcss/vite": "^4.1.10",
+		"@tanstack/solid-query": "^5.80.6",
+		"@trpc/client": "^11.3.1",
+		"@trpc/server": "^11.3.1",
+		"@universal-middleware/core": "^0.4.7",
+		"@universal-middleware/hono": "^0.4.12",
+		"hono": "^4.7.11",
+		"solid-js": "^1.9.7",
+		"superjson": "^2.2.2",
+		"tailwindcss": "^4.1.10",
+		"vike": "^0.4.231",
+		"vike-solid": "^0.7.11",
+		"zod": "^3.25.63"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.9.4",
-		"@types/bun": "latest"
+		"typescript": "^5.8.3",
+		"vite": "^6.3.5",
+		"@biomejs/biome": "1.9.4",
+		"@hono/vite-dev-server": "^0.19.1",
+		"@tanstack/solid-query-devtools": "^5.80.7",
+		"@types/bun": "latest",
+		"tsx": "^4.19.4",
+		"cross-env": "^7.0.3"
 	},
-	"peerDependencies": {
-		"typescript": "^5"
-	}
+	"type": "module"
 }

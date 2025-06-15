@@ -41,3 +41,4 @@ Having trouble? Please open an issue, or [DM me on Farcaster](https://farcaster.
 
 - [License (MIT)](LICENSE)
 - [Website](https://vhs.dev/)
+
