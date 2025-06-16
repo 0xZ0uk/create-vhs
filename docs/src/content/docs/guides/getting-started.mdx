@@ -1,0 +1,65 @@
+---
+title: Getting Started
+description: A guide on how to start using VHS
+---
+
+Welcome to VHS! This guide will walk you through scaffolding a new project, connecting your database, and starting the development server. By the end, you'll have a full-stack, type-safe application running locally and ready for you to build something amazing.
+
+## Prerequisites
+
+All you need to get started is **[Bun](https://bun.sh/)**. Bun is our all-in-one toolkit: it acts as the JavaScript runtime, package manager, and bundler for this project.
+
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside>You can use Node, along with a different package manager, if you prefer.</Aside>
+
+## 1. Scaffolding a New Project
+
+To create a new VHS project, run the following command in your terminal:
+
+```bash
+bun create vhs@latest my-vhs-app
+```
+
+## 2. Configure Environment Variables
+
+Your project needs a few environment variables to run, most importantly the connection string for your database.
+
+First, copy the example environment file to create your own local version:
+
+```bash
+cp .env.example .env
+```
+
+Now, open the newly created .env file. You will need to provide a connection string to a PostgreSQL-compatible database (e.g., from Vercel, Neon, Supabase, or your own local instance).
+
+Update the `DATABASE_URL` variable with your actual database connection string.
+
+```.env
+# .env
+# Replace this with your actual database connection string
+DATABASE_URL="postgresql://user:password@hostname:5432/db"
+```
+
+## 3. Sync Your Database Schema
+
+Before running the application, you need to sync its schema with the database you provided in the previous step.
+
+The starter project comes with a default schema defined in `src/server/db/schema.ts`. To create the necessary tables in your database, run the `db:push` command:
+
+```bash
+bun run db:push
+```
+
+This command uses Drizzle Kit to introspect your schema and sync your database to match it. You should see a confirmation that the tables were created successfully.
+
+## 4. Run the Development Server
+
+And that's it for the setup! You're now ready to start the development server.
+
+```
+bun dev
+```
+
+This will start the Vike development server. Open your browser and navigate to `http://localhost:3000`. You should see your VHS application running live, with hot-reloading enabled for both the frontend and backend.
