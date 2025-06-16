@@ -1,0 +1,75 @@
+---
+title: Folder Structure
+---
+
+The folder structure of a VHS project is designed to be straightforward and scalable. We've kept it familiar for anyone coming from the [T3 Stack](https://create.t3.gg)/[NextJS](https://nextjs.org), aiming for a logical separation between your client-side code, server-side logic, and configuration.
+
+Here’s a look at the key files and folders.
+
+```
+.
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── layouts/
+│   ├── lib/
+│   ├── pages/
+│   ├── server/
+│   │   ├── api/
+│   │   └── db/
+│   ├── styles/
+│   └── trpc/
+├── vite.config.ts
+├── tsconfig.json
+└── biome.jsonc
+```
+
+#### `src/assets`
+
+A home for any static assets that are used by your application. This is the perfect place to store images, fonts, or SVGs.
+
+#### `src/components`
+
+This folder contains all of your reusable SolidJS components. Think of these as the building blocks of your UI: buttons, form inputs, cards, modals, etc. By keeping them here, you can easily import and use them across different pages and layouts.
+
+#### `src/layouts`
+
+Layouts are components that wrap your pages. They are used to define a common structure that is shared across multiple routes, such as a site header, a footer, or a navigation sidebar. Your `LayoutDefault.tsx` is a great example of this.
+
+#### `src/lib`
+
+A general-purpose directory for utility functions and helpers. This is a great place for things like a `cn` (classname) utility for merging Tailwind classes, date formatting functions, or other bits of logic that don't belong in a specific component or page.
+
+#### `src/pages`
+
+This is where your routes are defined. Following Vike's file-based routing, each file or folder inside `pages` corresponds to a route in your application. 
+
+#### `src/server`
+
+As the name implies, everything inside this folder runs **only on the server**. This is a critical security boundary. Your database connections, secret keys, and Hono API routes live here. Code in this directory will never be exposed to the client.
+
+* `server/api/`: This is where your backend API logic lives, built with Hono. Crucially, this is where you define your **tRPC routers and procedures** (queries and mutations). You then expose this tRPC router as Hono middleware, creating a single, powerful endpoint for all your type-safe data fetching.
+* `server/db/`: Contains all your database configurations. This is where you'll define your **Drizzle ORM schema** (the files that declare your tables) and create your Drizzle client instance for interacting with the database.
+
+
+
+#### `src/styles`
+
+Your global CSS styles live here. The `globals.css` file is the place to define your base styles, import fonts, and include your core Tailwind CSS directives.
+
+#### `src/trpc`
+
+This folder holds the **client-side setup for tRPC**. It contains the tRPC query client, which integrates with TanStack Query (`@tanstack/solid-query`), allowing you to call your backend procedures with fully-typed hooks like `createQuery` and `createMutation` in your SolidJS components.
+
+
+#### `vite.config.ts`
+
+This is the configuration file for Vike (and Vite), the high-performance build tool that powers VHS. You can customize the build process here, add Vite plugins, and define aliases.
+
+#### `tsconfig.json`
+
+This file configures the TypeScript compiler. It defines the rules for how your code is checked for errors and sets up helpful features like the `@/*` path alias, which makes importing modules from your `src` directory much cleaner.
+
+#### `biome.jsonc`
+
+This file configures **Biome**, our all-in-one tool for linting and formatting. It helps enforce a consistent code style and catches common errors across the entire codebase, keeping everything clean and readable.
