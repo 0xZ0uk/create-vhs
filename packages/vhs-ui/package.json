@@ -1,5 +1,5 @@
 {
-  "name": "@vhs/ui",
+  "name": "vhs-ui",
   "module": "src/index.ts",
   "type": "module",
   "devDependencies": {

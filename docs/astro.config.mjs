@@ -17,15 +17,22 @@ export default defineConfig({
 			],
 			sidebar: [
 				{
-					label: "Guides",
+					label: "Create VHS App",
 					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: "Example Guide", slug: "guides/example" },
+						{ label: "Why VHS?", slug: "why" },
+						// { label: "Installation", slug: "installation" },
+						// { label: "Folder Structure", slug: "folder-structure" },
+						// { label: "FAQ", slug: "faq" },
+						// { label: "Examples", slug: "examples" },
 					],
 				},
 				{
-					label: "Reference",
-					autogenerate: { directory: "reference" },
+					label: "Usage",
+					autogenerate: { directory: "usage" },
+				},
+				{
+					label: "Deployment",
+					autogenerate: { directory: "deployment" },
 				},
 			],
 		}),
