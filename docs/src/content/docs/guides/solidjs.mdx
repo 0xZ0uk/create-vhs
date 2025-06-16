@@ -16,3 +16,87 @@ import { VideoPlayer } from 'starlight-videos/components'
 
 For a more in-depth understanding, you can also check out the <a href="https://www.solidjs.com/guides/getting-started">official SolidJS documentation</a>.
 
+## Quick Start
+
+This guide is designed to bridge the gap between the React and Solid. We'll show you what's familiar and, more importantly, explain the fundamental shift in thinking that will help you write clean, incredibly performant Solid applications. 
+
+Think of it this way: the "what" (your UI) is familiar, but the "how" (the update mechanism) is different and, once you grasp it, much simpler.
+
+---
+
+### What Will Feel Familiar
+
+The fundamentals of creating components with JSX and passing props are nearly identical. Solid provides first-class TypeScript support to make this process robust.
+<ul class="list-disc pl-8">
+  <li>**Components are Typed Functions:** You build your UI from functions that return JSX. The idiomatic way to type them is with the Component type from solid-js.</li>
+  <li>**Props are Typed:** You can define props for your components just as you would in React, typically using an interface or type alias.</li>
+</ul>
+
+import { Code } from '@astrojs/starlight/components';
+
+<Code title='TypeScript' lang="ts" code={`
+import type { Component } from 'solid-js';
+
+// Define the shape of your props
+type GreetingProps = {
+    name: string;
+};
+
+// Use the Component<T> type for your component
+const Greeting: Component<GreetingProps> = (props) => {
+    return <div>Hello, {props.name}!</div>;
+};
+
+const App: Component = () => {
+    return <Greeting name="Solid Developer" />;
+};
+`} />
+
+### The Big Difference: True Reactivity vs. the Virtual DOM
+
+This is the most important concept to understand, and it's what makes Solid so fast.
+
+In React, when state changes, the component function re-runs, and a Virtual DOM is used to figure out what changed.
+
+In Solid, your component functions run only once to set up the view. They don't re-run. Instead, Solid uses a reactive system that surgically updates the exact parts of the DOM that need to change.
+
+<table class="bg-[var(--code-background)] rounded-md">
+    <thead>
+        <tr>
+            <th>React (VDOM)</th>
+            <th>Solid (Reactivity)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>State change triggers a component re-render.</td>
+            <td>Component function runs once.</td>
+        </tr>
+        <tr>
+            <td>A new VDOM is created and diffed.</td>
+            <td>A reactive signal directly updates the DOM.</td>
+        </tr>
+        <tr>
+            <td>Relies on dependency arrays (useEffect).</td>
+            <td>Dependencies are tracked automatically.</td>
+        </tr>
+        <tr>
+            <td>"Re-run everything to figure it out."</td>
+            <td>"Update only what's necessary."</td>
+        </tr>
+    </tbody>
+</table>
+
+This fundamental difference eliminates the need for dependency arrays and a whole class of bugs related to stale closures.
+
+### Mapping React Concepts to Solid
+
+Here's a practical, type-safe look at how common React hooks map to Solid's reactive primitives.
+
+## Additional Resources
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+<LinkCard title="SolidJS Documentation" href="https://www.solidjs.com/docs" />
+<LinkCard title="SolidJS GitHub" href="https://github.com/solidjs/solid" />
+<LinkCard title="SolidJS Discord Community" href="https://discord.com/invite/solidjs" />
