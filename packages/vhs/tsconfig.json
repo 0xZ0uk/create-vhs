@@ -1,26 +1,21 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-		"module": "ESNext",
-		"moduleResolution": "bundler",
-		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true,
-		"jsx": "preserve",
-		"jsxImportSource": "solid-js",
-		"allowJs": true,
-		"noEmit": true,
-		"strict": true,
-		"isolatedModules": true,
-    "types": [
-      "vite/client",
-      "vike-solid/client"
-    ],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "allowJs": true,
+    "noEmit": true,
+    "strict": true,
+    "isolatedModules": true,
+    "types": ["vite/client", "vike-solid/client"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-    },
+      "@/*": ["src/*"]
+    }
   },
-  "exclude": [
-    "dist"
-  ]
+  "exclude": ["dist"]
 }

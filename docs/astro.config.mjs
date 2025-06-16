@@ -1,6 +1,5 @@
 import starlight from "@astrojs/starlight";
 import tailwindcss from "@tailwindcss/vite";
-import starlightNextjsTheme from "starlight-nextjs-theme";
 
 import { defineConfig } from "astro/config";
 
