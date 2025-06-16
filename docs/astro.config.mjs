@@ -7,7 +7,7 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: "",
+			title: "VHS Docs",
 			social: [
 				{
 					icon: "github",
@@ -40,8 +40,9 @@ export default defineConfig({
 			customCss: ["./src/styles/global.css"],
 			logo: {
 				src: "./src/assets/logo.png",
-				alt: "VHS Documentation",
+				alt: "VHS",
 			},
+			favicon: "./src/assets/favicon.svg",
 		}),
 	],
 	vite: {
