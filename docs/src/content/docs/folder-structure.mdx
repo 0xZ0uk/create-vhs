@@ -6,23 +6,27 @@ The folder structure of a VHS project is designed to be straightforward and scal
 
 Here’s a look at the key files and folders.
 
-```
-.
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── layouts/
-│   ├── lib/
-│   ├── pages/
-│   ├── server/
-│   │   ├── api/
-│   │   └── db/
-│   ├── styles/
-│   └── trpc/
-├── vite.config.ts
-├── tsconfig.json
-└── biome.jsonc
-```
+import { FileTree } from '@astrojs/starlight/components';
+
+<FileTree>
+- src
+  - assets/
+  - components/
+  - layouts/
+  - lib/
+  - pages/
+  - server
+    - api/
+    - db/
+  - styles/
+    - globals.css
+  - trpc/
+- vite.config.ts
+- tsconfig.json
+- biome.jsonc
+</FileTree>
+
+
 
 #### `src/assets`
 

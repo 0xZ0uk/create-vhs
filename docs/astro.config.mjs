@@ -29,7 +29,9 @@ export default defineConfig({
 					items: [
 						{ label: "Getting Started", slug: "guides/getting-started" },
 						{ label: "SolidJS", slug: "guides/solidjs" },
-						{ label: "Vike", slug: "guides/vike" },
+						{ label: "Vike Router", slug: "guides/vike-router" },
+						{ label: "Hono + tRPC", slug: "guides/hono-trpc" },
+						{ label: "UnoCSS", slug: "guides/unocss" },
 					],
 				},
 				{
@@ -37,12 +39,12 @@ export default defineConfig({
 					autogenerate: { directory: "deployment" },
 				},
 			],
-			customCss: ["./src/styles/global.css"],
 			logo: {
 				src: "./src/assets/logo.png",
 				alt: "VHS",
 			},
 			favicon: "./src/assets/favicon.svg",
+			customCss: ["./src/styles/global.css"],
 		}),
 	],
 	vite: {

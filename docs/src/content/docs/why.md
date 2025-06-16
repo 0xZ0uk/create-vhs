@@ -35,3 +35,12 @@ It delivers on the original promise of GraphQL: a seamless, type-safe connection
 
 Once you’ve experienced calling your API without ever leaving your editor's autocomplete, it's impossible to go back. It makes your frontend and backend feel like a single, cohesive codebase.
 
+### Why [UnoCSS](https://unocss.dev/)?
+
+We love Tailwind CSS. It brought structure and sanity to styling complex applications. But we're always searching for tools that can make the developer experience even faster and more flexible. That's where UnoCSS comes in.
+
+The best part? If you know Tailwind, you already know UnoCSS. It uses a default preset that is practically a superset of Tailwind's utilities, so you can start writing classes immediately without learning a new syntax.
+
+But it's more than just a faster Tailwind. UnoCSS is an engine. Unlike traditional utility-first frameworks that generate a large stylesheet in development, UnoCSS is "on-demand," producing only the CSS you are actually using, instantly. This means a development experience that feels weightless. It also unlocks powerful features like the Icons Preset, letting you add thousands of icons from popular sets with a single class.
+
+It’s the perfect fit for VHS: familiar, incredibly fast, and powerful when you need it to be, all while putting the developer experience first.
