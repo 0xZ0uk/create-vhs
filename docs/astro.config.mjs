@@ -1,5 +1,6 @@
 import starlight from "@astrojs/starlight";
 import tailwindcss from "@tailwindcss/vite";
+import starlightVideos from "starlight-videos";
 
 import { defineConfig } from "astro/config";
 
@@ -45,6 +46,7 @@ export default defineConfig({
 			},
 			favicon: "./src/assets/favicon.svg",
 			customCss: ["./src/styles/global.css"],
+			plugins: [starlightVideos()],
 		}),
 	],
 	vite: {
