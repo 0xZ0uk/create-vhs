@@ -91,7 +91,108 @@ This fundamental difference eliminates the need for dependency arrays and a whol
 
 ### Mapping React Concepts to Solid
 
-Here's a practical, type-safe look at how common React hooks map to Solid's reactive primitives.
+Here’s a practical, type-safe look at how common React hooks map to Solid's reactive primitives.
+
+#### State: `useState` → `createSignal`
+
+In Solid, you use `createSignal`. It's generic, so it can infer the type from its initial value, or you can provide it explicitly. A signal is a tuple containing an `Accessor` (the getter) and a `Setter`.
+
+<Code title='TypeScript' lang="ts" code={`
+import { createSignal } from 'solid-js';
+import type { Accessor, Setter } from 'solid-js';
+
+// Type is inferred as 'number'
+const [count, setCount] = createSignal(0);
+// count is type: Accessor<number>
+// setCount is type: Setter<number>
+
+// You can also be explicit, which is useful for complex types
+const [user, setUser] = createSignal<User | null>(null);
+`} />
+
+The most critical difference for React developers is that the state variable (`count`) is an **accessor function**, not a static value.
+
+<Code title='TypeScript' lang="ts" code={`
+// To read the value, you must call the function:
+<h1>The count is: {count()}</h1>
+
+// This is wrong and will not be reactive:
+<h1>The count is: {count}</h1>
+`} />
+
+Why? Calling `count()` is how you tell Solid's reactive system that this part of your UI depends on the signal. It’s how the magic happens without a VDOM.
+
+#### Side Effects: `useEffect` → `createEffect`
+
+`createEffect` automatically tracks any signals you read inside it. No dependency array needed!
+
+<Code title='TypeScript' lang="ts" code={`
+import { createEffect, createSignal } from 'solid-js';
+
+const [count, setCount] = createSignal(0);
+
+// This effect automatically re-runs whenever 'count()' changes
+createEffect(() => {
+    console.log('The count is now', count());
+});
+`} />
+
+#### Memoization: `useMemo` → `createMemo`
+
+For deriving reactive values, use `createMemo`. It also tracks its own dependencies and returns a read-only Accessor.
+
+<Code title='TypeScript' lang="ts" code={`
+import { createMemo, createSignal } from 'solid-js';
+import type { Accessor } from 'solid-js';
+
+const [count, setCount] = createSignal(5);
+
+// The type of doubleCount is Accessor<number>
+const doubleCount: Accessor<number> = createMemo(() => count() * 2);
+
+// Use it in your JSX just like a signal
+<p>Double the count is: {doubleCount()}</p>
+`} />
+
+#### A Common Pitfall: Lists and Conditionals
+
+Because your components only run once, you cannot use array methods like .map() directly in your JSX for reactive data. To handle this, Solid provides special, typed helper components.
+
+<ul class="list-disc pl-8">
+  <li>For lists, use the `<For>` component.</li>
+  <li>For conditional rendering, use the `<Show>` component.</li>
+</ul>
+
+These components are reactive and ensure the DOM is updated efficiently.
+
+<Code title='TypeScript' lang="ts" code={`
+import { createSignal, For, Show } from 'solid-js';
+import type { Component } from 'solid-js';
+
+interface User {
+    id: number;
+    name: string;
+}
+
+const [users, setUsers] = createSignal<User[]>([
+    { id: 1, name: 'Alice' },
+    { id: 2, name: 'Bob' },
+]);
+
+const [currentUser, setCurrentUser] = createSignal<User>(users()[0]);
+
+// Correct way to render a list
+// 'user' is correctly typed as 'User' inside the loop
+<For each={users()}>
+    {(user, i) => <div>{i() + 1}: {user.name}</div>}
+</For>
+
+// Correct way to show/hide content
+// The 'when' prop narrows the type of 'user()' inside the block
+<Show when={currentUser()} fallback={<p>No user selected.</p>}>
+    {user => <p>Current user is: {user.name}</p>}
+</Show>
+`} />
 
 ## Additional Resources
 

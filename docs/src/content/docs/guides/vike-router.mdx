@@ -3,4 +3,131 @@ title: Vike Router
 description: A guide on how to started with Vike in VHS
 ---
 
-(TODO)
+import { Code } from '@astrojs/starlight/components';
+
+Routing is at the core of any web application. VHS uses Vike, which provides a powerful and organized file-system-based router. Instead of relying on file names, Vike uses a directory-based approach with special configuration files prefixed with `+`.
+
+This convention makes the purpose of every file explicit and keeps all the concerns of a route—its UI, configuration, head tags, and server logic—neatly organized within its own folder.
+
+## The Anatomy of a Route
+
+In VHS, every folder inside `src/pages/` represents a route. The root of your site, `/`, is defined by the `src/pages/index/` directory.
+
+The most important file within a route's folder is `+Page.tsx`. This is the heart of your route—the SolidJS component that renders the UI.
+
+<Code title='src/pages/index/+Page.tsx' lang="ts" code={`
+import type { Component } from 'solid-js';
+
+const HomePage: Component = () => {
+    return (
+        <div>
+        <h1>Welcome to the VHS Stack!</h1>
+        <p>This is the home page.</p>
+        </div>
+    );
+};
+
+export default HomePage;
+`} />
+
+To create a new page at `/about`, you would simply create a new folder and file: `src/pages/about/+Page.tsx`.
+
+## Centralized Configuration with `+config.ts`
+
+One of the most powerful features of this setup is the `+config.ts` file. The one at the root of the `pages` directory (`src/pages/+config.ts`) defines the global settings for your entire application.
+
+<Code title='src/pages/+config.ts' lang="ts" code={`
+import Layout from '~/layouts/LayoutDefault';
+import vikeSolid from 'vike-solid/config';
+import type { Config } from 'vike/types';
+
+// Default config for all pages
+export default {
+    // The default Layout component that wraps every page
+    Layout: Layout,
+    // Default <title> and <meta name="description">
+    title: "My VHS App",
+    description: "A demo showcasing the VHS Stack",
+    // Extends Vike's functionality with the Solid renderer
+    extends: [vikeSolid]
+} satisfies Config;
+`} />
+
+This single file allows you to set a default layout, title, and other metadata for all your routes. You can also override any of these settings on a per-route basis by adding another +config.ts file inside a specific route's folder (e.g., src/pages/about/+config.ts).
+
+## Special Files and Their Roles
+
+Vike uses several other `+` files to handle common web development needs in a clean, organized way.
+
+### Head Management: `+Head.tsx`
+
+The `+Head.tsx` file in your `pages` root defines the default contents for your document's `<head>` tag. This is the ideal place for global meta tags, favicons, or font links.
+
+<Code title='src/pages/+Head.tsx' lang="ts" code={`
+import type { Component } from 'solid-js';
+
+const Head: Component = () => {
+    return (
+        <>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+        </>
+    );
+};
+
+export default Head;
+`} />
+
+Like the config, this can also be overridden or extended within individual route folders.
+
+### Page Transitions: `+onPageTransitionStart.ts`
+
+Vike has built-in support for client-side navigation hooks, allowing you to easily create page transitions. For example, you can add a class to the body to trigger CSS animations.
+
+<Code title='src/pages/+onPageTransitionStart.ts' lang="ts" code={`
+import type { OnPageTransitionStartAsync } from 'vike/types';
+
+export const onPageTransitionStart: OnPageTransitionStartAsync = async () => {
+    console.log("Page transition starting...");
+    document.body.classList.add("page-is-transitioning");
+};
+
+// You would also have a '+onPageTransitionEnd.ts' to remove the class.
+`} />
+
+This provides a simple yet powerful hook into the client-side routing lifecycle.
+
+### Error Handling: `_error/+Page.tsx`
+
+The `_error/` directory is a special route that gracefully handles all errors. The `+Page.tsx` within it serves as a global error boundary for both `404 Not Found` and `500 Internal Server Error` states.
+
+You can use the `usePageContext` hook to determine what kind of error occurred and render the appropriate UI.
+
+<Code title='src/pages/_error/+Page.tsx' lang="ts" code={`
+import { usePageContext } from 'vike-solid/usePageContext';
+import type { Component } from 'solid-js';
+
+const ErrorPage: Component = () => {
+    const { is404 } = usePageContext();
+
+    return (
+    <div>
+        {is404 ? (
+        <>
+            <h1>404 Page Not Found</h1>
+            <p>This page could not be found.</p>
+        </>
+        ) : (
+        <>
+            <h1>500 Internal Error</h1>
+            <p>Something went wrong.</p>
+        </>
+        )}
+    </div>
+    );
+};
+
+export default ErrorPage;
+`} />
+
+This convention-based approach provides a robust and easy-to-understand method for handling errors across your entire application.
