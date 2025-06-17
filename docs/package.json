@@ -7,7 +7,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro build && bunx wrangler dev",
-    "deploy": "astro build && bunx wrangler deploy",
+    "deploy": "bunx wrangler deploy",
     "astro": "astro"
   },
   "dependencies": {
