@@ -2,7 +2,7 @@
 
 <p align="center">
   <br/>
-  <a href="https://vhs.dev">VHS</a> is a web development stack built for the modern web &mdash;
+  <a href="https://create-vhs.pages.dev">VHS</a> is a web development stack built for the modern web &mdash;
   <br/>
   focused on simplicity and full type-safety.
   <br/><br/>
@@ -22,12 +22,12 @@ The **recommended** way to install the latest version of VHS is by running the c
 bun create vhs@latest
 ```
 
-Looking for help? Start with our [Getting Started](https://docs.vhs.dev/en/getting-started/) guide.
+Looking for help? Start with our [Getting Started](https://create-vhs.pages.dev/guides/getting-started/) guide.
 
 
 ## Documentation
 
-Visit our [official documentation](https://docs.vhs.dev/).
+Visit our [official documentation](https://create-vhs.pages.dev/why/).
 
 ## Support
 
@@ -42,4 +42,4 @@ Having trouble? Please open an issue, or [DM me on Farcaster](https://farcaster.
 ## Links
 
 - [License (MIT)](LICENSE)
-- [Website](https://vhs.dev/)
+- [Website](https://create-vhs.pages.dev)
