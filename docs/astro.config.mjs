@@ -1,3 +1,4 @@
+import cloudflare from "@astrojs/cloudflare";
 import starlight from "@astrojs/starlight";
 import tailwindcss from "@tailwindcss/vite";
 import starlightLlmsTxt from "starlight-llms-txt";
@@ -54,4 +55,5 @@ export default defineConfig({
 	vite: {
 		plugins: [tailwindcss()],
 	},
+	adapter: cloudflare(),
 });
