@@ -5,129 +5,116 @@ description: A guide on how to started with Vike in VHS
 
 import { Code } from '@astrojs/starlight/components';
 
-Routing is at the core of any web application. VHS uses Vike, which provides a powerful and organized file-system-based router. Instead of relying on file names, Vike uses a directory-based approach with special configuration files prefixed with `+`.
+Routing is at the core of any web application. VHS uses Vike, which provides a powerful and flexible routing system. While it defaults to an intuitive filesystem-based approach, it offers powerful escape hatches for when you need more control.
 
-This convention makes the purpose of every file explicit and keeps all the concerns of a route—its UI, configuration, head tags, and server logic—neatly organized within its own folder.
+This guide covers the main ways to define, organize, and protect your routes.
 
-## The Anatomy of a Route
+## 1. Filesystem Routing
 
-In VHS, every folder inside `src/pages/` represents a route. The root of your site, `/`, is defined by the `src/pages/index/` directory.
+By default, Vike maps the folder structure inside src/pages/ directly to URL routes. The key principle is that folders define the route, and special + files inside them define the route's behavior.
 
-The most important file within a route's folder is `+Page.tsx`. This is the heart of your route—the SolidJS component that renders the UI.
+Vike always ignores the pages/ and index/ directories when creating the URL path.
 
-<Code title='src/pages/index/+Page.tsx' lang="ts" code={`
-import type { Component } from 'solid-js';
+<ul class="list-disc pl-8">
+    <li>`src/pages/index/+Page.tsx` → `/`</li>
+    <li>`src/pages/about/+Page.tsx` → `/about`</li>
+    <li>`src/pages/posts/+Page.tsx` → `/posts`</li>
+</ul>
 
-const HomePage: Component = () => {
-    return (
-        <div>
-        <h1>Welcome to the VHS Stack!</h1>
-        <p>This is the home page.</p>
-        </div>
-    );
-};
+### Dynamic Routes
 
-export default HomePage;
+To create a route with a dynamic segment, use the @ prefix. This is perfect for things like user profiles or blog posts.
+
+**Example**: `src/pages/users/@userId/+Page.tsx`
+
+This route will match URLs like `/users/123` and `/users/jane-doe`. You can access the dynamic parameter in your server logic via the pageContext:
+
+<Code title='TypeScript' lang="ts" code={`
+// in a .page.server.tsx or +guard.ts file
+import type { PageContext } from 'vike/types';
+
+export function data(pageContext: PageContext) {
+    // Access the dynamic part of the URL
+    const userId = pageContext.routeParams.userId;
+    // ... fetch user data
+}
 `} />
 
-To create a new page at `/about`, you would simply create a new folder and file: `src/pages/about/+Page.tsx`.
+### Organizing with Route Groups
 
-## Centralized Configuration with `+config.ts`
+You can group related routes into folders with parentheses (). These folders are ignored in the URL, but they are incredibly useful for applying shared layouts or configurations to a set of pages.
 
-One of the most powerful features of this setup is the `+config.ts` file. The one at the root of the `pages` directory (`src/pages/+config.ts`) defines the global settings for your entire application.
+**Example**:
+<ul class="list-disc pl-8">
+    <li>`src/pages/(marketing)/about/+Page.tsx` → `/about`</li>
+    <li>`src/pages/(marketing)/contact/+Page.tsx` → `/contact`</li>
+</ul>
 
-<Code title='src/pages/+config.ts' lang="ts" code={`
-import Layout from '~/layouts/LayoutDefault';
-import vikeSolid from 'vike-solid/config';
-import type { Config } from 'vike/types';
+Now, you can add a `+Layout.tsx` or `+config.ts` inside the (marketing) folder to apply a specific layout or configuration only to the marketing pages.
 
-// Default config for all pages
-export default {
-    // The default Layout component that wraps every page
-    Layout: Layout,
-    // Default <title> and <meta name="description">
-    title: "My VHS App",
-    description: "A demo showcasing the VHS Stack",
-    // Extends Vike's functionality with the Solid renderer
-    extends: [vikeSolid]
-} satisfies Config;
+## 2. Advanced Routing with +route.ts
+
+Sometimes, your desired URL doesn't match your file structure. For these cases, you can create a +route.ts file to explicitly define the route for all files within that same directory.
+
+### Route Strings
+
+The simplest way to override filesystem routing is with a Route String.
+
+<Code title='src/pages/product-details/+route.ts' lang="ts" code={`
+    // This defines the URL for '/src/pages/product-details/+Page.tsx'
+    export default '/product/@id'
 `} />
 
-This single file allows you to set a default layout, title, and other metadata for all your routes. You can also override any of these settings on a per-route basis by adding another +config.ts file inside a specific route's folder (e.g., src/pages/about/+config.ts).
+Now, the URL `/product/123` will be handled by the page component in the product-details folder.
 
-## Special Files and Their Roles
+### Route Functions
 
-Vike uses several other `+` files to handle common web development needs in a clean, organized way.
+For ultimate control, you can export a Route Function. This allows for complex, programmatic logic, such as using regular expressions or integrating third-party routing libraries.
 
-### Head Management: `+Head.tsx`
+<Code title='src/pages/product-editor/+route.ts' lang="ts" code={`
+import type { RouteSync } from 'vike/types'
 
-The `+Head.tsx` file in your `pages` root defines the default contents for your document's `<head>` tag. This is the ideal place for global meta tags, favicons, or font links.
-
-<Code title='src/pages/+Head.tsx' lang="ts" code={`
-import type { Component } from 'solid-js';
-
-const Head: Component = () => {
-    return (
-        <>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-        </>
-    );
-};
-
-export default Head;
+export const route: RouteSync = (pageContext) => {
+    // Example: only match if a specific query parameter exists
+    if (pageContext.urlPathname === '/edit' && pageContext.urlParsed.search.edit_token) {
+    return { routeParams: { /* ... */ } }
+    }
+    return false
+}
 `} />
 
-Like the config, this can also be overridden or extended within individual route folders.
+## 3. Protecting Routes with +guard.ts
 
-### Page Transitions: `+onPageTransitionStart.ts`
+A common requirement is to protect pages from unauthorized access. Vike handles this elegantly with `+guard.ts` files. A guard file in a directory applies to all sub-routes within it.
 
-Vike has built-in support for client-side navigation hooks, allowing you to easily create page transitions. For example, you can add a class to the body to trigger CSS animations.
+The `guard()` hook runs on the server before your page is rendered. You can check for user permissions and redirect or deny access by throwing `render()`.
 
-<Code title='src/pages/+onPageTransitionStart.ts' lang="ts" code={`
-import type { OnPageTransitionStartAsync } from 'vike/types';
+**Example**: Protecting an admin section.
 
-export const onPageTransitionStart: OnPageTransitionStartAsync = async () => {
-    console.log("Page transition starting...");
-    document.body.classList.add("page-is-transitioning");
-};
+<Code title='src/pages/admin/+guard.ts' lang="ts" code={`
+import { render } from 'vike/abort'
+import type { GuardAsync } from 'vike/types'
 
-// You would also have a '+onPageTransitionEnd.ts' to remove the class.
+export const guard: GuardAsync = async (pageContext) => {
+    // This logic runs on the server
+    const { user } = pageContext; // Assuming user is available in pageContext
+    if (!user || !user.isAdmin) {
+        // Deny access and render the 401 Unauthorized page
+        throw render(401, "You aren't allowed to access this page.")
+    }
+}
 `} />
 
-This provides a simple yet powerful hook into the client-side routing lifecycle.
+Now, any page inside `src/pages/admin/` is protected by this logic.
 
-### Error Handling: `_error/+Page.tsx`
+## 4. Other Key Route Files
 
-The `_error/` directory is a special route that gracefully handles all errors. The `+Page.tsx` within it serves as a global error boundary for both `404 Not Found` and `500 Internal Server Error` states.
+As we covered previously, you can use other `+` files to manage all aspects of a route:
 
-You can use the `usePageContext` hook to determine what kind of error occurred and render the appropriate UI.
-
-<Code title='src/pages/_error/+Page.tsx' lang="ts" code={`
-import { usePageContext } from 'vike-solid/usePageContext';
-import type { Component } from 'solid-js';
-
-const ErrorPage: Component = () => {
-    const { is404 } = usePageContext();
-
-    return (
-    <div>
-        {is404 ? (
-        <>
-            <h1>404 Page Not Found</h1>
-            <p>This page could not be found.</p>
-        </>
-        ) : (
-        <>
-            <h1>500 Internal Error</h1>
-            <p>Something went wrong.</p>
-        </>
-        )}
-    </div>
-    );
-};
-
-export default ErrorPage;
-`} />
-
-This convention-based approach provides a robust and easy-to-understand method for handling errors across your entire application.
+<ul class="list-disc pl-8">
+    <li>`+Page.tsx`: The main SolidJS component for the UI.</li>
+    <li>`+config.ts`: Sets route-specific configuration like the Layout or title.</li>
+    <li>`+Head.tsx`: Manages the document `<head>`.</li>
+    <li>`+onPageTransitionStart.ts`: Handles client-side navigation lifecycle hooks.</li>
+    <li>`_error/+Page.tsx`: A special route for handling 404 and 500 errors.</li>
+</ul>
