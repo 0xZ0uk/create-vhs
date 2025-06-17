@@ -1,10 +1,9 @@
-import cloudflare from "@astrojs/cloudflare";
 import starlight from "@astrojs/starlight";
 import tailwindcss from "@tailwindcss/vite";
 import starlightLlmsTxt from "starlight-llms-txt";
 import starlightVideos from "starlight-videos";
 
-import { defineConfig } from "astro/config";
+import { defineConfig, passthroughImageService } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
@@ -55,5 +54,7 @@ export default defineConfig({
 	vite: {
 		plugins: [tailwindcss()],
 	},
-	adapter: cloudflare(),
+	image: {
+		service: passthroughImageService(),
+	},
 });

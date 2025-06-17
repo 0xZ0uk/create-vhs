@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "create-vhs",
-  "main": "./dist/_worker.js/index.js",
+  // "main": "./dist/_worker.js/index.js",
   // Update to today's date
   "compatibility_date": "2025-06-17",
   "compatibility_flags": ["nodejs_compat"],
