@@ -3,4 +3,127 @@ title: Hono + tRPC
 description: A guide on how to started with Vike in VHS
 ---
 
-(TODO)
+import { Code } from '@astrojs/starlight/components';
+
+One of the core philosophies of VHS is end-to-end type safety, and the combination of Hono and tRPC is how we achieve this for the API layer. Hono provides the high-performance, lightweight server, while tRPC builds a type-safe bridge between that server and your client-side code.
+
+This guide will walk you through the entire flow, from how the server is set up to how you can call your API procedures on the frontend with full type safety and autocompletion.
+
+## 1. How Hono and tRPC Connect
+
+The integration begins at the server entrypoint. Hono acts as the main web server, handling incoming HTTP requests. We then tell Hono to forward any requests that come in on a specific path to our tRPC handler.
+
+This setup happens in `src/hono-entry.ts`:
+
+<Code title='src/hono-entry.ts' lang="ts" code={`
+import { createHandler } from "@universal-middleware/hono";
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { trpcHandler } from "./server/trpc-handler";
+
+const app = new Hono();
+
+app.use("*", cors());
+
+// This is the magic line:
+app.use("/api/trpc/*", createHandler(trpcHandler)("/api/trpc"));
+`} />
+
+## 2. Setting Up Your tRPC Instance
+
+The core tRPC configuration lives in `src/server/api/trpc.ts`. This file is where we create the building blocks for our entire API.
+
+<Code title='src/server/api/trpc.ts' lang="ts" code={`
+import { initTRPC } from "@trpc/server";
+import superjson from "superjson";
+
+// 1. Create the tRPC Context
+export const createTRPCContext = async (opts: { req?: Request }) => {
+    // Here you can add things that all your procedures can access.
+    // For example: database connection, user session, etc.
+    return {
+        // db: getDb(),
+        // user: await getUserFromHeader(opts.req?.headers),
+    };
+};
+
+// 2. Initialize tRPC
+const t = initTRPC.context<typeof createTRPCContext>().create({
+    transformer: superjson, // Enables richer data serialization
+});
+
+// 3. Export helper functions
+export const createTRPCRouter = t.router;
+export const publicProcedure = t.procedure;
+`} />
+
+There are three key concepts here:
+
+<ol class="list-decimal pl-8">
+    <li>Context (`createTRPCContext`): This is an object that is available to all of your tRPC procedures. It's the perfect place to put shared resources like a database connection or the current user's authentication session. This avoids having to pass these resources to every single function.</li>
+    <li>Initialization (`initTRPC`): This is where we create our tRPC instance, telling it what our context looks like and enabling helpful tools like superjson, which allows you to send data types like Date, Map, and Set over the wire seamlessly.</li>
+    <li>Helpers (`createTRPCRouter`, `publicProcedure`): These are the reusable tools we'll use to define our API endpoints in the next step. A `publicProcedure` is an endpoint that anyone can access. You could also create a `protectedProcedure` here to handle authenticated requests.</li>
+</ol>
+
+## 3. Defining Your API Endpoints
+
+With the setup complete, you can now create your API endpoints. We organize these into "routers," which are collections of related procedures.
+
+Here is an example of a simple router for posts in `src/server/api/routers/post.ts`:
+
+<Code title='src/server/api/routers/post.ts' lang="ts" code={`
+import { z } from "zod";
+import { createTRPCRouter, publicProcedure } from "../trpc";
+
+export const postRouter = createTRPCRouter({
+    // 'hello' is the name of our procedure
+    hello: publicProcedure
+        // '.input()' defines the expected input and validates it with Zod
+        .input(z.object({ text: z.string() }))
+        // '.query()' defines it as a data-fetching endpoint
+        .query(({ input, ctx }) => {
+            // This is the actual server-side logic
+            // 'input' is fully typed and validated
+            // 'ctx' is the context we defined earlier
+            return {
+                greeting: \`Hello \${input.text}\`,
+            };
+        }),
+});
+
+`} />
+
+This file defines a single endpoint at `post.hello`. Notice how [Zod](https://zod.dev/) is used to define the input. tRPC will automatically validate incoming requests against this schema. If a request doesn't match, it will be rejected before your code even runs.
+
+## 4. Type-Safe Data Fetching on the Client
+
+This is where the magic happens. On the client, you can now call this server procedure as if it were a local function, with full type safety and autocompletion.
+
+<Code title='TypeScript' lang="ts" code={`
+// In a SolidJS component
+import { api } from "@/lib/api"; // Your pre-configured tRPC client
+import { useQuery } from "@tanstack/solid-query";
+
+const MyComponent = () => {
+    const helloQuery = useQuery(() => ({
+        queryKey: ["hello"],
+        queryFn: () => api.post.hello.query({ text: "from tRPC" }),
+    }));
+
+    return (
+        <div>
+            {helloQuery.data?.greeting}
+        </div>
+    );
+};
+`} />
+
+Look closely at the `queryFn: api.post.hello.query({ text: "from tRPC" })`.
+
+<ul class="list-disc pl-8">
+    <li>No URL strings: You're not writing `fetch(/api/post/hello')`.</li>
+    <li>Full Autocompletion: Your editor knows that `api.post` exists, that it has a `hello` procedure, and that it's a `query`.</li>
+    <li>Input Typing: TypeScript knows that the `query` method requires an object with a `text` property of type `string`. If you try to pass a number or misspell the key, you'll get an error instantly in your editor.</li>
+    <li>Output Typing: The return value, `helloQuery.data`, is also fully typed. TypeScript knows it will be an object with a `greeting` property of type `string`.</li>
+</ul>
+    

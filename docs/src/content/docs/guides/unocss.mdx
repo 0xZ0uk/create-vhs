@@ -3,4 +3,126 @@ title: UnoCSS
 description: A guide on how to started with Vike in VHS
 ---
 
-(TODO)
+import { Code } from '@astrojs/starlight/components';
+
+If you love the utility-first workflow of Tailwind CSS, you're going to feel right at home styling your VHS application. We use [UnoCSS](https://unocss.dev/), and the most important thing to know is that it was chosen to provide a faster and more flexible Tailwind-like experience.
+
+Think of it not as a replacement, but as an evolution. It's an on-demand engine for the same utility-first concepts you already know. This guide will show you what's familiar, what's different, and why you'll love it.
+
+## It's Basically Tailwind, But Faster
+
+In VHS, we use UnoCSS with Wind4 preset. This preset provides nearly all the Tailwind v4 utilities you know and love. You can write `flex`, `pt-4`, `text-lg`, `bg-blue-500`, and `rounded-lg` just as you always have.
+
+**So, what's the real difference? The engine.**
+<ul class="list-disc pl-8">
+    <li><strong>Tailwind's Approach:</strong> In development, Tailwind scans your files and generates a large CSS file containing all the utilities it might need, which is then purged for production. This is effective, but can sometimes lead to a slight lag on startup or during hot-reloading.</li>
+    <li><strong>UnoCSS's Approach:</strong> UnoCSS is an on-demand engine. It generates nothing upfront. Instead, it scans your code for classes as they are needed and generates only the exact CSS you are using, instantly.</li>
+</ul>
+
+The result is a development experience that feels weightless. Startup is instantaneous, and Hot Module Replacement (HMR) is lightning-fast because the CSS payload is always minimal.
+
+## Writing Classes
+
+Thanks to the Wind4 preset, your day-to-day workflow remains exactly the same. You can style your SolidJS components with the utility classes you're comfortable with.
+
+<Code title='TypeScript' wrap lang="ts" code={`
+// This component uses familiar utility classes that just work.
+import type { Component } from 'solid-js';
+
+const Card: Component = () => {
+    return (
+        <div class="m-4 p-6 max-w-sm bg-white rounded-xl shadow-lg flex items-center space-x-4">
+            <div class="shrink-0">
+                <div class="i-heroicons-solid-bolt text-3xl text-yellow-500" />
+            </div>
+            <div>
+                <div class="text-xl font-medium text-black">Super Fast</div>
+                <p class="text-slate-500">This card is styled with UnoCSS!</p>
+            </div>
+        </div>
+    );
+};
+`} />
+
+## Going Beyond Tailwind
+
+Because UnoCSS is an engine, it can be extended with powerful presets that go beyond what a standard Tailwind setup offers.
+
+### 1. Icon Preset
+
+This is a game-changer for developer experience. With `@unocss/preset-icons`, you can add thousands of icons from popular libraries like Heroicons, Material Design Icons, Font Awesome, and more, directly as a class.
+
+No more importing SVG files or managing icon components. Just add a class.
+
+<Code title='HTML' lang="html" code={`
+<div class="i-heroicons-sun-20-solid text-2xl text-orange-500"></div>
+
+<a href="..." class="i-mdi-github text-4xl hover:text-gray-500"></a>
+`} />
+
+
+The format is `i-{collection}-{icon-name}`. It's an incredibly simple and efficient way to handle icons.
+
+### 2. Attributify Mode (Optional)
+
+For those who prefer cleaner HTML, UnoCSS offers an optional "Attributify Mode." This lets you group related utilities into attributes.
+
+**Before (Standard classes):**
+<Code title='HTML' wrap lang="html" code={`
+<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    Click Me
+</button>`} />
+
+**After (Attributify Mode):**
+<Code title='HTML' wrap lang="html" code={`
+<button
+    bg="blue-500 hover:blue-700"
+    text="white"
+    font="bold"
+    p="y-2 x-4"
+    rounded
+>
+    Click Me    
+</button>`} />
+
+This is an opt-in feature you can enable in your config if you prefer this style.
+
+## Configuration in `uno.config.ts`
+
+Your UnoCSS setup is configured in the `uno.config.ts` file at the root of your project. This is where you can see the presets being used and add your own customizations.
+
+<Code title='uno.config.ts' wrap lang="ts" code={`
+import {
+    defineConfig,
+    presetAttributify,
+    presetIcons,
+    presetTypography,
+    presetUno,
+    presetWebFonts,
+    transformerDirectives,
+    transformerVariantGroup,
+} from "unocss";
+
+// The Wind preset is part of presetUno
+import { presetWind } from "unocss";
+
+export default defineConfig({
+    presets: [
+        presetWind(), // Provides the Tailwind CSS utilities
+        presetIcons({
+            scale: 1.2,
+            warn: true,
+        }),
+    // ... other presets
+    ],
+    // ... other configs like transformers or shortcuts
+});
+`} />
+
+---
+
+UnoCSS was chosen for VHS because it aligns perfectly with our core principles. It provides the familiar, productive workflow of Tailwind CSS while pushing the boundaries of performance and developer experience. You get all the benefits you're used to, plus a faster engine and powerful new features like on-demand icons, right out of the box.
+
+## Additional Resources
+- [UnoCSS Documentation](https://unocss.dev/)
+- [UnoCSS GitHub Repository](https://github.com/unocss/unocss)
