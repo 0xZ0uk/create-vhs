@@ -43,11 +43,12 @@ export async function promptForOptions(
 					value: "basic" as TemplateType,
 					short: "Basic",
 				},
-				{
-					name: `${chalk.magenta("Farcaster mini-app")} - All you need to create your Farcaster mini-app.`,
-					value: "mini-app" as TemplateType,
-					short: "Farcaster Mini App",
-				},
+				// TODO: Add support to create Farcaster Mini-apps using the create-vhs cli
+				// {
+				// 	name: `${chalk.magenta("Farcaster mini-app")} - All you need to create your Farcaster mini-app.`,
+				// 	value: "mini-app" as TemplateType,
+				// 	short: "Farcaster Mini App",
+				// },
 			],
 			default: "basic" as TemplateType,
 		});

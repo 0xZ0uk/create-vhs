@@ -1,7 +1,7 @@
 {
   "name": "create-vhs",
   "description": "Create a VHS monorepo with one command.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "bin": {
     "create-vhs": "./bin/index.js"

@@ -26,36 +26,6 @@ export async function createProject(
 		throw new Error(`Directory ${projectName} already exists`);
 	}
 
-	// const templateSource = getTemplateSource(options.template);
-	// const credentials: { username?: string; token?: string } = {};
-	//
-	// if (
-	// 	templateSource.startsWith("https://github.com/") &&
-	// 	templateSource.includes("0xZ0uk/vhs") // adjust as needed
-	// ) {
-	// 	console.log(
-	// 		chalk.yellow("🔒 This template is private. Authentication required."),
-	// 	);
-	// 	const { username, token } = await inquirer.prompt([
-	// 		{
-	// 			type: "input",
-	// 			name: "username",
-	// 			message: "GitHub Username:",
-	// 		},
-	// 		{
-	// 			type: "password",
-	// 			name: "token",
-	// 			message: "GitHub Personal Access Token (recommended) or password:",
-	// 			mask: "*",
-	// 		},
-	// 	]);
-	// 	// Inject credentials into the URL
-	// 	templateSource = templateSource.replace(
-	// 		"https://github.com/",
-	// 		`https://${encodeURIComponent(username)}:${encodeURIComponent(token)}@github.com/`,
-	// 	);
-	// }
-
 	const steps: SpinnerStep[] = [
 		{
 			text: "Creating project directory...",
